@@ -75,5 +75,4 @@ public class UnitTest
 
         Assert.That(data?.Count() ?? 0, Is.EqualTo(count));
     }
-
 }

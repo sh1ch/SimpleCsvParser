@@ -45,11 +45,19 @@ public class CsvParser
     /// </summary>
     /// <param name="filePath">ファイル名。</param>
     /// <param name="delimiter">区切り文字。</param>
+    /// <returns>CSV レコードのコレクション。</returns>
+    public static IEnumerable<IEnumerable<string>> ParseFromFile(string filePath, Delimiter delimiter = Delimiter.Comma) => ParseFromFile(filePath, delimiter, Encoding.UTF8);
+
+    /// <summary>
+    /// 指定したフォーマットに従って、CSV ファイルを CSV レコードに分解します。
+    /// </summary>
+    /// <param name="filePath">ファイル名。</param>
+    /// <param name="delimiter">区切り文字。</param>
     /// <param name="encoding">ファイルの文字エンコーディング。</param>
     /// <returns>CSV レコードのコレクション。</returns>
-    public static IEnumerable<IEnumerable<string>> ParseFromFile(string filePath, Delimiter delimiter = Delimiter.Comma, Encoding encoding = null)
+    public static IEnumerable<IEnumerable<string>> ParseFromFile(string filePath, Delimiter delimiter, Encoding encoding)
     {
-        var text = File.ReadAllText(filePath, encoding ?? Encoding.UTF8);
+        var text = File.ReadAllText(filePath, encoding);
 
         UnifyCrlf(ref text);
 
@@ -247,7 +255,6 @@ public class CsvParser
 
                 if (fieldText.Length > 0)
                 {
-
                     var newField = fieldText.ToString();
 
                     if (hasQuote && newField.Count(co => co == DoubleQuote) >= 2)
