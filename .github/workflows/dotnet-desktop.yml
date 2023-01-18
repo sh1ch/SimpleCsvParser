@@ -19,7 +19,7 @@ jobs:
 
     env:
       Solution_Name: SimpleCsvParser\SimpleCsvParser.sln
-      Test_Project_Path: SimpleCsvParser\Test\Test.csproj
+      Test_Project_Path: Test\Test.csproj
       
     steps:
     - name: Checkout
