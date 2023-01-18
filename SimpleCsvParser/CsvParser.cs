@@ -46,6 +46,7 @@ public class CsvParser
     /// <param name="filePath">ファイル名。</param>
     /// <param name="delimiter">区切り文字。</param>
     /// <returns>CSV レコードのコレクション。</returns>
+    /// <exception cref="System.IO.FileNotFoundException">指定したファイルが存在しない場合に発生する例外です。</exception>
     public static IEnumerable<IEnumerable<string>> ParseFromFile(string filePath, Delimiter delimiter = Delimiter.Comma) => ParseFromFile(filePath, delimiter, Encoding.UTF8);
 
     /// <summary>
@@ -55,8 +56,14 @@ public class CsvParser
     /// <param name="delimiter">区切り文字。</param>
     /// <param name="encoding">ファイルの文字エンコーディング。</param>
     /// <returns>CSV レコードのコレクション。</returns>
+    /// <exception cref="System.IO.FileNotFoundException">指定したファイルが存在しない場合に発生する例外です。</exception>
     public static IEnumerable<IEnumerable<string>> ParseFromFile(string filePath, Delimiter delimiter, Encoding encoding)
     {
+        if (!System.IO.File.Exists(filePath))
+        {
+            throw new FileNotFoundException(filePath);
+        }
+
         var text = File.ReadAllText(filePath, encoding);
 
         UnifyCrlf(ref text);
