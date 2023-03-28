@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Heritage.IO;
 
 /// <summary>
-/// <see cref="CsvFormatExtension"/> クラスは、データを様々な <see cref="string"/> 形式に変換するためのクラスです。
+/// <see cref="CsvDataExtension"/> クラスは、データを様々な <see cref="string"/> 形式に変換するためのクラスです。
 /// </summary>
-public static class CsvFormatExtension
+public static class CsvDataExtension
 {
     public static string Join(this IEnumerable<string> data, bool hasNewLine = true)
     {
