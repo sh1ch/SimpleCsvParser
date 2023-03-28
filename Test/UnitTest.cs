@@ -75,4 +75,107 @@ public class UnitTest
 
         Assert.That(data?.Count() ?? 0, Is.EqualTo(count));
     }
+
+    [TestCase(new int[] { 1, 2, 3, 4}, "1, 2, 3, 4")]
+    public void Extension_Join(int[] data, string actual)
+    {
+        var textData = data.Select(p => p.ToString());
+        var expect = textData.Join(false);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase("testdata", "\"testdata\"")]
+    [TestCase("a \"b\" c", "\"a \"\"b\"\" c\"")]
+    public void Extension_Excape(string value, string actual)
+    {
+        var expect = value.Escape();
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(100, "", "100")]
+    [TestCase(20000, "#,0", "20,000")]
+    public void Extension_ToText(int value, string format, string actual)
+    {
+        var expect = value.ToText(format);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(20000, "#,0", "", "20,000")]
+    [TestCase(-20000, "#,0", "x", "x")]
+    public void Extension_ToText(int value, string format, string replace, string actual)
+    {
+        var expect = value.ToText((val) => val > 0, replace:replace, format: format);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(null, "", "null", "null")]
+    [TestCase(20000, "#,0", "", "20,000")]
+    [TestCase(-20000, "#,0", "x", "x")]
+    public void Extension_ToText(int? value, string format, string replace, string actual)
+    {
+        var expect = value.ToText((val) => val > 0, replace: replace, format: format);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(100.001, "", "100.001")]
+    [TestCase(20000.12, "#,0.0000", "20,000.1200")]
+    public void Extension_ToText(double value, string format, string actual)
+    {
+        var expect = value.ToText(format);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(20000.12, "#,0.0000", "", "20,000.1200")]
+    [TestCase(-20000.12, "#,0.0000", "xx", "xx")]
+
+    public void Extension_ToText(double value, string format, string replace, string actual)
+    {
+        var expect = value.ToText((val) => val > 0, replace: replace, format: format);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(null, "", "null", "null")]
+    [TestCase(20000.12, "#,0.0000", "", "20,000.1200")]
+    [TestCase(-20000.12, "#,0.0000", "xx", "xx")]
+    public void Extension_ToText(double? value, string format, string replace, string actual)
+    {
+        var expect = value.ToText((val) => val > 0, replace: replace, format: format);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(100.123456, 3, "100.123")]
+    [TestCase(200.123456, 4, "200.1235")]
+    public void Extension_ToText(double value, int decimals, string actual)
+    {
+        var expect = value.ToText(decimals);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(100.012345, 1, "low", "low")]
+    [TestCase(200.123456, 4, "low", "200.1235")]
+    public void Extension_ToText(double value, int decimals, string replace, string actual)
+    {
+        var expect = value.ToText((val) => val > 100.1, decimals, replace:replace);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
+
+    [TestCase(null, 1, "null", "null")]
+    [TestCase(100.012345, 1, "low", "low")]
+    [TestCase(200.123456, 4, "low", "200.1235")]
+    public void Extension_ToText(double? value, int decimals, string replace, string actual)
+    {
+        var expect = value.ToText((val) => val > 100.1, decimals, replace: replace);
+
+        Assert.That(expect, Is.EqualTo(actual));
+    }
 }
