@@ -80,7 +80,7 @@ public class UnitTest
     public void Extension_Join(int[] data, string actual)
     {
         var textData = data.Select(p => p.ToString());
-        var expect = textData.Join(false);
+        var expect = textData.Join(", ", hasNewLine: false);
 
         Assert.That(expect, Is.EqualTo(actual));
     }
