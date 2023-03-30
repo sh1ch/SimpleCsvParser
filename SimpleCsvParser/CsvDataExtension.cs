@@ -12,9 +12,9 @@ namespace Heritage.IO;
 /// </summary>
 public static class CsvDataExtension
 {
-    public static string Join(this IEnumerable<string> data, bool hasNewLine = true)
+    public static string Join(this IEnumerable<string> data, string separator = ",", bool hasNewLine = true)
     {
-        var text = string.Join(", ", data);
+        var text = string.Join(separator, data);
 
         if (hasNewLine)
         {
